@@ -40,10 +40,6 @@ public class Book {
         this.pages = pages;
     }
 
-    public static Book of(String title, String description, int pages) {
-        return new Book(title, description, pages);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -67,5 +63,9 @@ public class Book {
                 ", pages=" + pages +
                 ", author=" + author +
                 '}';
+    }
+
+    public static Book of(String title, String description, int pages) {
+        return new Book(title, description, pages);
     }
 }
