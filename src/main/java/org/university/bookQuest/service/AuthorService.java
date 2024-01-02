@@ -8,7 +8,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.university.bookQuest.entity.Author;
-import org.university.bookQuest.entity.Book;
 import org.university.bookQuest.repository.AuthorRepository;
 import org.university.bookQuest.repository.BookRepository;
 
@@ -68,9 +67,9 @@ public class AuthorService {
     private Page<Author> sortingSelection(Pageable pageable, String searchText) {
         Page<Author> authors;
         if (checkSearchText(searchText)) {
-            authors = findAuthorBooksWithSearchText(pageable, searchText);
+            authors = findAuthorsWithSearchText(pageable, searchText);
         } else {
-            authors = findAuthorBooks(pageable);
+            authors = findAuthors(pageable);
         }
         return authors;
     }
@@ -79,7 +78,7 @@ public class AuthorService {
         return searchText != null && !searchText.trim().isEmpty();
     }
 
-    private Page<Author> findAuthorBooksWithSearchText(Pageable pageable, String searchText) {
+    private Page<Author> findAuthorsWithSearchText(Pageable pageable, String searchText) {
         return authorRepository.findAll()
                 .stream()
                 .filter(author -> author.getFullName().contains(searchText))
@@ -89,7 +88,7 @@ public class AuthorService {
                 ));
     }
 
-    private Page<Author> findAuthorBooks(Pageable pageable) {
+    private Page<Author> findAuthors(Pageable pageable) {
         return authorRepository.findAll(pageable);
     }
 }
