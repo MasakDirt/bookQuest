@@ -31,6 +31,10 @@ public class Role implements GrantedAuthority {
     @OneToOne(mappedBy = "role", cascade = CascadeType.ALL)
     private User owner;
 
+    private Role(String name) {
+        this.name = name;
+    }
+
     @Override
     public String getAuthority() {
         return name;
@@ -55,5 +59,9 @@ public class Role implements GrantedAuthority {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';
+    }
+
+    public static Role of(String name) {
+        return new Role(name);
     }
 }
