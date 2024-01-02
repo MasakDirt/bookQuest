@@ -47,22 +47,19 @@ public class Author {
         this.biography = biography;
     }
 
-    public static Author of(String fullName, String biography, LocalDateTime birtDate) {
-        return new Author(fullName, biography, birtDate);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Author author = (Author) o;
-        return id == author.id && booksAmount == author.booksAmount && Objects.equals(fullName, author.fullName)
-                && Objects.equals(birtDate, author.birtDate);
+        return id == author.id && booksAmount == author.booksAmount
+                && Objects.equals(fullName, author.fullName) &&
+                Objects.equals(biography, author.biography) && Objects.equals(birtDate, author.birtDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, fullName, booksAmount, birtDate);
+        return Objects.hash(id, fullName, booksAmount, biography, birtDate);
     }
 
     @Override
@@ -71,7 +68,12 @@ public class Author {
                 "id=" + id +
                 ", fullName='" + fullName + '\'' +
                 ", booksAmount=" + booksAmount +
+                ", biography='" + biography + '\'' +
                 ", birtDate=" + birtDate +
                 '}';
+    }
+
+    public static Author of(String fullName, String biography, LocalDateTime birtDate) {
+        return new Author(fullName, biography, birtDate);
     }
 }
