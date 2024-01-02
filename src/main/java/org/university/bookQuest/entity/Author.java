@@ -31,12 +31,25 @@ public class Author {
     @Column(name = "amount_of_books")
     private int booksAmount;
 
+    @NotBlank(message = "Write authors biography please!")
+    private String biography;
+
     @Column(name = "birth_date")
     private LocalDateTime birtDate;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "author")
     private List<Book> books;
+
+    private Author(String fullName, String biography, LocalDateTime birtDate) {
+        this.fullName = fullName;
+        this.birtDate = birtDate;
+        this.biography = biography;
+    }
+
+    public static Author of(String fullName, String biography, LocalDateTime birtDate) {
+        return new Author(fullName, biography, birtDate);
+    }
 
     @Override
     public boolean equals(Object o) {
