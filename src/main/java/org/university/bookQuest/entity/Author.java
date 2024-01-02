@@ -31,6 +31,9 @@ public class Author {
     @Column(name = "amount_of_books")
     private int booksAmount;
 
+    @NotBlank(message = "Write authors biography please!")
+    private String biography;
+
     @Column(name = "birth_date")
     private LocalDateTime birtDate;
 
@@ -38,18 +41,25 @@ public class Author {
     @OneToMany(mappedBy = "author")
     private List<Book> books;
 
+    private Author(String fullName, String biography, LocalDateTime birtDate) {
+        this.fullName = fullName;
+        this.birtDate = birtDate;
+        this.biography = biography;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Author author = (Author) o;
-        return id == author.id && booksAmount == author.booksAmount && Objects.equals(fullName, author.fullName)
-                && Objects.equals(birtDate, author.birtDate);
+        return id == author.id && booksAmount == author.booksAmount
+                && Objects.equals(fullName, author.fullName) &&
+                Objects.equals(biography, author.biography) && Objects.equals(birtDate, author.birtDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, fullName, booksAmount, birtDate);
+        return Objects.hash(id, fullName, booksAmount, biography, birtDate);
     }
 
     @Override
@@ -58,7 +68,12 @@ public class Author {
                 "id=" + id +
                 ", fullName='" + fullName + '\'' +
                 ", booksAmount=" + booksAmount +
+                ", biography='" + biography + '\'' +
                 ", birtDate=" + birtDate +
                 '}';
+    }
+
+    public static Author of(String fullName, String biography, LocalDateTime birtDate) {
+        return new Author(fullName, biography, birtDate);
     }
 }
