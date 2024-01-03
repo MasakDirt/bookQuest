@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Authors Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .book {
+            margin: 0;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            border: none;
+            border-radius: 3px;
+        }
+
+        .button-green {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-green:hover {
+            background-color: #25632d;
+        }
+
+        .log_outBtn {
+            background-color: #4c63af;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .log_outBtn:hover {
+            background-color: #262563;
+        }
+
+        .add_authorBtn {
+            background-color: #4c63af;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .add_authorBtn:hover {
+            background-color: #1c6d8c;
+        }
+
+        .card_buttons {
+            margin: 1px;
+            text-align: left;
+        }
+
+        .h1Authors {
+            margin: 100;
+        }
+
+        .author-card {
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            text-align: left;
+        }
+
+        .author-info {
+            margin-top: 5px;
+        }
+
+        .discription {
+            font-size: larger;
+        }
+
+        .birthDate {
+            text-align: right;
+        }
+
+        .book-count {
+            text-align: right;
+        }
+
+        .pagination .page-item .page-link {
+            background-color: #4caf50;
+            border-color: #4caf50;
+            color: #fff;
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #25632d;
+            border-color: #25632d;
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <div class="container">
+        <a th:href="@{|/api/${user_id}/authors|}" th:method="get">
+            <h1 class="book">Book Quest</h1>
+        </a>
+        <form th:action="@{|/api/${user_id}/authors|}" th:method="get">
+            <label>
+                <input type="text" name="searchText" placeholder="Шукаю...">
+            </label>
+            <button class="button-green" type="submit">Пошук</button>
+        </form>
+        <div>
+            <a class="add_authorBtn" th:if="${is_admin}" th:href="@{|/api/${user_id}/authors/create|}" th:method="get">Додати автора</a>
+            <a class="log_outBtn" th:href="@{/logout}">Вийти</a>
+        </div>
+    </div>
+</header>
+
+<h1 class="h1Authors">Найкращі автори:</h1>
+
+<div>
+    <div class="author-card" th:each="author : ${authors}">
+        <h2 th:text="${author.fullName}"></h2>
+        <div class="author-info">
+            <p class="discription" th:text="${author.biography}"/>
+            <p class="birthDate" th:text="${'День народження: ' + author.getBirthDate.format(dateFormatter)}"/>
+            <p class="book-count" th:text="${'Книг: ' + author.booksAmount}"/>
+            <div class="card_buttons">
+                <a class="button-green" th:href="@{|/api/${user_id}/authors/${author.id}/books|}" th:method="get">Усі
+                    книги</a>
+                <a class="button-green" th:if="${is_admin}"
+                   th:href="@{|/api/${user_id}/authors/${author.id}/update|}" th:method="get">Оновити</a>
+                <a class="button-green" th:if="${is_admin}" th:href="@{|/api/${user_id}/authors/${author.id}/delete|}"
+                   th:method="get">Видалити</a>
+            </div>
+            <br>
+        </div>
+    </div>
+
+    <nav>
+        <ul class="pagination">
+            <li class="page-item" th:if="${page > 0}">
+                <a class="page-link"
+                   th:href="@{|/api/${user_id}/authors?page=${page - 1}&searchText=${searchText}|}">&laquo;</a>
+            </li>
+            <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, authors.totalPages - 1)}"
+                th:classappend="${pageNumber == page} ? 'active' : ''">
+                <a class="page-link"
+                   th:href="@{|/api/${user_id}/authors?page=${pageNumber}&searchText=${searchText}|}"
+                   th:text="${pageNumber + 1}"></a>
+            </li>
+            <li class="page-item" th:if="${page < authors.totalPages - 1}">
+                <a class="page-link"
+                   th:href="@{|/api/${user_id}/authors?page=${page + 1}&searchText=${searchText}|}">&raquo;</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+</body>
+</html>
