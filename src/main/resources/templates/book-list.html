@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сторінка Книг</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .book {
+            margin: 0;
+        }
+
+        input[type="text"] {
+            padding: 8px;
+            border: none;
+            border-radius: 3px;
+        }
+
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #25632d;
+        }
+
+        .log_outBtn {
+            background-color: #4c63af;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .log_outBtn:hover {
+            background-color: #262563;
+        }
+
+        .add_bookBtn {
+            background-color: #4c63af;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .add_bookBtn:hover {
+            background-color: #1c6d8c;
+        }
+
+        .card_buttons {
+            margin: 1px;
+            text-align: left;
+        }
+
+        .h1Books {
+            margin: 100;
+        }
+
+        .book-card {
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 30px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            text-align: left;
+        }
+
+        .book-info {
+            margin-top: 5px;
+        }
+
+        .description {
+            font-size: larger;
+        }
+
+        .author {
+            text-align: right;
+        }
+
+        .publish-date,
+        .page-count {
+            text-align: right;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1 class="book">Book Quest</h1>
+            <form action="#" method="get">
+                <input type="text" placeholder="Пошук...">
+                <button type="submit">Пошук</button>
+            </form>
+            <div>
+                <button class="add_bookBtn">Додати книгу</button>
+                <button class="log_outBtn">Вийти</button>
+            </div>
+        </div>
+    </header>
+
+    <h1 class="h1Books">Найкращі Книги:</h1>
+
+    <div class="book-card">
+        <h2>Великий Гетсбі</h2>
+        <div class="book-info">
+            <p class="description">Великий Гетсбі - роман американського автора Френсіса Скотта Фіцджеральда. Сюжет розгортається в
+                літній сезон 1922 року та досліджує теми декаденції, ідеалізму та американської мрії.</p>
+            <p class="author">Автор: Френсіс Скотт Фіцджеральд</p>
+            <p class="publish-date">Опубліковано: 10 квітня 1925 року</p>
+            <p class="page-count">Кількість сторінок: 320</p>
+            <div class="card_buttons">
+                <button>Детальніше</button>
+                <button>Видалити</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
