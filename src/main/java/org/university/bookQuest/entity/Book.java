@@ -31,7 +31,7 @@ public class Book {
     private int pages;
 
     @JsonBackReference
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Author author;
 
     private Book(String title, String description, int pages) {
