@@ -10,6 +10,5 @@ import java.util.List;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-    @Query("select b from Book b where b.author.id =: authorId")
     List<Book> findAllByAuthorId(long authorId);
 }
