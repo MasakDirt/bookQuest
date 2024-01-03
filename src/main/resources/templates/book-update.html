@@ -85,18 +85,17 @@
 <body>
     <div class="registration-container">
         <h2>Оновлення книги</h2>
-        <form action="your_update_handler.php" method="post">
-            <label for="bookTitle">Назва книги:</label>
-            <input type="text" id="bookTitle" name="bookTitle" required>
+        <form th:action="@{|/api/${user_id}/authors/${author_id}/books/${id}/update|}" method="post">
+            <label for="title">Назва книги:</label>
+            <input type="text" id="title" name="title" th:text="${bookRequest.title}" th:field="${bookRequest.title}" required>
 
             <label for="description">Опис:</label>
-            <textarea id="description" name="description" rows="4" required></textarea>
+            <textarea id="description" name="description"  th:text="${bookRequest.description}"  th:field="${bookRequest.description}" rows="4" required></textarea>
 
-            <label for="pageCount">Кількість сторінок:</label>
-            <input type="number" id="pageCount" name="pageCount" required>
+            <label for="pages">Кількість сторінок:</label>
+            <input type="number" id="pages" name="pages" th:text="${bookRequest.pages}" th:field="${bookRequest.pages}" required>
 
-            <button type="submit" class="update">Оновити</button>
-            
+            <button type="submit">Додати книгу</button>
             <button type="button" class="clear" onclick="clearForm()">Очистити</button>
         </form>
     </div>

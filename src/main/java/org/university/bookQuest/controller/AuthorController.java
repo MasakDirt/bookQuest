@@ -43,8 +43,6 @@ public class AuthorController {
         String sortedOrder = "desc";
         map.addAttribute("page", pageNumber);
         map.addAttribute("searchText", searchText);
-        map.addAttribute("sort_order", sortedOrder);
-        map.addAttribute("sort_by", sortBy);
         map.addAttribute("is_admin", userService.isAdmin(userId));
         map.addAttribute("user_id", userId);
         map.addAttribute("dateFormatter", DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG));
@@ -71,7 +69,7 @@ public class AuthorController {
     }
 
     @GetMapping("/create")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public ModelAndView getCreateForm(@PathVariable("user-id") long userId, ModelMap map) {
         map.addAttribute("authorRequest", new AuthorRequest());
         map.addAttribute("user_id", userId);
@@ -79,7 +77,7 @@ public class AuthorController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
     public void createAuthor(@PathVariable("user-id") long userId, @Valid AuthorRequest authorRequest,
                              Authentication authentication, HttpServletResponse response) {
         authorService.create(mapper.getAuthorFromAuthorRequest(authorRequest));

@@ -20,8 +20,9 @@ public class BookService {
     private final BookRepository bookRepository;
     private final AuthorService authorService;
 
-    public Book create(String title, String description, int pages) {
+    public Book create(long authorId, String title, String description, int pages) {
         Book book = Book.of(title, description, pages);
+        book.setAuthor(authorService.readById(authorId));
         bookRepository.saveAndFlush(book);
         authorService.updateAmountOfBooks(bookRepository, book.getAuthor());
         log.info("registered - {}", book);
@@ -45,7 +46,9 @@ public class BookService {
     }
 
     public void delete(long id) {
-        bookRepository.delete(readById(id));
+        Book book = readById(id);
+        bookRepository.delete(book);
+        authorService.updateAmountOfBooks(bookRepository, book.getAuthor());
         log.info("book with id {} successfully deleted", id);
     }
 
@@ -70,7 +73,7 @@ public class BookService {
     }
 
     private Page<Book> findAuthorBooksWithSearchText(Pageable pageable, String searchText, long authorId) {
-        return bookRepository.findAllByAuthorId(authorId)
+        return bookRepository.findAllByAuthorId(authorId, pageable)
                 .stream()
                 .filter(book -> book.getTitle().contains(searchText))
                 .collect(Collectors.collectingAndThen(
@@ -80,11 +83,6 @@ public class BookService {
     }
 
     private Page<Book> findAuthorBooks(Pageable pageable, long authorId) {
-        return bookRepository.findAllByAuthorId(authorId)
-                .stream()
-                .collect(Collectors.collectingAndThen(
-                        Collectors.toList(),
-                        list -> new PageImpl<>(list, pageable, pageable.getPageSize())
-                ));
+        return bookRepository.findAllByAuthorId(authorId, pageable);
     }
 }
