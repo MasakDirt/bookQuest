@@ -102,7 +102,7 @@
             margin-top: 5px;
         }
 
-        .discription {
+        .description {
             font-size: larger;
         }
 
@@ -140,7 +140,8 @@
             <button class="button-green" type="submit">Пошук</button>
         </form>
         <div>
-            <a class="add_authorBtn" th:if="${is_admin}" th:href="@{|/api/${user_id}/authors/create|}" th:method="get">Додати автора</a>
+            <a class="add_authorBtn" th:href="@{|/api/${user_id}/authors/create|}" th:method="get">Додати
+                автора</a>
             <a class="log_outBtn" th:href="@{/logout}">Вийти</a>
         </div>
     </div>
@@ -152,7 +153,7 @@
     <div class="author-card" th:each="author : ${authors}">
         <h2 th:text="${author.fullName}"></h2>
         <div class="author-info">
-            <p class="discription" th:text="${author.biography}"/>
+            <p class="description" th:text="${author.biography}"/>
             <p class="birthDate" th:text="${'День народження: ' + author.getBirthDate.format(dateFormatter)}"/>
             <p class="book-count" th:text="${'Книг: ' + author.booksAmount}"/>
             <div class="card_buttons">
