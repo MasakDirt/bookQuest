@@ -30,12 +30,12 @@ public class RoleService {
     public Role readByName(String name) {
         Role role = roleRepository.findByName(name)
                 .orElseThrow(() -> new EntityNotFoundException("Role not found!"));
-        log.info("read role by id {}", role.getName());
+        log.info("read role by name {}", role.getName());
         return role;
     }
 
     public Role getByUserId(long userId) {
-        Role role = roleRepository.findByOwnerId(userId)
+        Role role = roleRepository.findByUsersId(userId)
                 .orElseThrow(() -> new EntityNotFoundException("Role not found!"));
         log.info("read role by user id - {}", role.getName());
         return role;
