@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -28,8 +29,8 @@ public class Role implements GrantedAuthority {
     private String name;
 
     @JsonManagedReference
-    @OneToOne(mappedBy = "role", cascade = CascadeType.ALL)
-    private User owner;
+    @OneToMany(mappedBy = "role", cascade = CascadeType.ALL)
+    private List<User> users;
 
     private Role(String name) {
         this.name = name;
@@ -37,7 +38,7 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String getAuthority() {
-        return name;
+        return "ROLE_" + name;
     }
 
     @Override
