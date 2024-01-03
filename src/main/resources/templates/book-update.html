@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Quest - Реєстрація</title>
+    <style>
+        body {
+            font-family: Lucida Console, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+        .registration-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease; 
+        }
+
+        button:hover {
+            background-color: #25632d;
+        }
+
+        .update {
+            background-color: #4c63af;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease; 
+        }
+
+        .update:hover {
+            background-color: #262563;
+        }
+
+        .add {
+            background-color: #3498db;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease; 
+        }
+
+        .add:hover {
+            background-color: #1c6d8c;
+        }
+
+        .clear {
+            background-color: #ff9800;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease; 
+        }
+
+        .clear:hover {
+            background-color: #d17f00;
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-container">
+        <h2>Оновлення книги</h2>
+        <form action="your_update_handler.php" method="post">
+            <label for="bookTitle">Назва книги:</label>
+            <input type="text" id="bookTitle" name="bookTitle" required>
+
+            <label for="description">Опис:</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
+
+            <label for="pageCount">Кількість сторінок:</label>
+            <input type="number" id="pageCount" name="pageCount" required>
+
+            <button type="submit" class="update">Оновити</button>
+            
+            <button type="button" class="clear" onclick="clearForm()">Очистити</button>
+        </form>
+    </div>
+
+    <script>
+        function clearForm() {
+            document.getElementById("bookTitle").value = "";
+            document.getElementById("description").value = "";
+            document.getElementById("pageCount").value = "";
+        }
+    </script>
+</body>
+</html>
