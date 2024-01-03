@@ -114,10 +114,31 @@
             text-align: right;
         }
 
-        .pagination .page-item .page-link {
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .pagination .page-item {
+            margin: 0 5px;
+            list-style: none;
+        }
+
+        .pagination .page-link {
             background-color: #4caf50;
             border-color: #4caf50;
             color: #fff;
+            padding: 8px 12px;
+            border-radius: 3px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .pagination .page-link:hover {
+            background-color: #25632d;
         }
 
         .pagination .page-item.active .page-link {
@@ -140,7 +161,8 @@
             <button class="button-green" type="submit">Пошук</button>
         </form>
         <div>
-            <a class="add_authorBtn" th:href="@{|/api/${user_id}/authors/create|}" th:method="get">Додати
+            <a class="add_authorBtn" th:href="@{|/api/${user_id}/authors/create|}"
+               th:method="get">Додати
                 автора</a>
             <a class="log_outBtn" th:href="@{/logout}">Вийти</a>
         </div>
@@ -153,11 +175,13 @@
     <div class="author-card" th:each="author : ${authors}">
         <h2 th:text="${author.fullName}"></h2>
         <div class="author-info">
-            <p class="description" th:text="${author.biography}"/>
-            <p class="birthDate" th:text="${'День народження: ' + author.getBirthDate.format(dateFormatter)}"/>
-            <p class="book-count" th:text="${'Книг: ' + author.booksAmount}"/>
+            <p class="description" th:text="${author.biography}" />
+            <p class="birthDate"
+               th:text="${'День народження: ' + author.getBirthDate.format(dateFormatter)}" />
+            <p class="book-count" th:text="${'Книг: ' + author.booksAmount}" />
             <div class="card_buttons">
-                <a class="button-green" th:href="@{|/api/${user_id}/authors/${author.id}/books|}" th:method="get">Усі
+                <a class="button-green"
+                   th:href="@{|/api/${user_id}/authors/${author.id}/books|}" th:method="get">Усі
                     книги</a>
                 <a class="button-green" th:if="${is_admin}"
                    th:href="@{|/api/${user_id}/authors/${author.id}/update|}" th:method="get">Оновити</a>
