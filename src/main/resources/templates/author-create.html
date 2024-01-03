@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Quest - Реєстрація</title>
+    <style>
+        body {
+            font-family: Lucida Console, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 50px;
+        }
+        .registration-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4caf50;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease; 
+        }
+
+        button:hover {
+            background-color: #25632d;
+        }
+
+        .add, .create {
+            background-color: #4c63af;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease; 
+        }
+
+        .add:hover, .create:hover {
+            background-color: #262563;
+        }
+
+        .clear {
+            background-color: #e74c3c;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease; 
+        }
+
+        .clear:hover {
+            background-color: #942323;
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-container">
+        <h2> Створити автора</h2>
+        <form action="your_registration_handler.php" method="post">
+            <label for="fullname">П.І.Б:</label>
+            <input type="text" id="fullname" name="fullname" required>
+
+            <label for="biography">Біографія:</label>
+            <textarea id="biography" name="biography" rows="4" required></textarea>
+
+            <label for="dob">Виберіть дату народження:</label>
+            <input type="date" id="dob" name="dob" required>
+
+            
+            <button type="submit" class="create">Створити автора</button>
+            <button type="button" class="clear">Очистити</button>
+        </form>
+    </div>
+</body>
+</html>
