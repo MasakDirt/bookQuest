@@ -14,10 +14,13 @@ spring:
     generate-ddl: true
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
+    defer-datasource-initialization: true
+
   h2:
     console:
       enabled: true
       path: /h2-console
-
-
+  sql:
+    init:
+      mode: always
