@@ -11,7 +11,6 @@ import org.university.bookQuest.entity.Author;
 import org.university.bookQuest.repository.AuthorRepository;
 import org.university.bookQuest.repository.BookRepository;
 
-import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -21,8 +20,7 @@ public class AuthorService {
 
     private final AuthorRepository authorRepository;
 
-    public Author create(String fullName, String biography, LocalDateTime birtDate) {
-        Author author = Author.of(fullName, biography, birtDate);
+    public Author create(Author author) {
         authorRepository.saveAndFlush(author);
         log.info("registered - {}", author);
         return author;
@@ -39,6 +37,7 @@ public class AuthorService {
         Author old = readById(id);
         updated.setId(id);
         updated.setBooks(old.getBooks());
+        updated.setBooksAmount(old.getBooksAmount());
         authorRepository.saveAndFlush(updated);
         log.info("updated author - {}", updated);
         return updated;
