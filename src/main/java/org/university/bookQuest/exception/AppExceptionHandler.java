@@ -79,27 +79,4 @@ public class AppExceptionHandler {
         map.addAttribute("formatter", DateTimeFormatter.ofPattern("h:mm a"));
         return new ModelAndView("error", map);
     }
-
-    public static void sendRedirectAndCheckForError(HttpServletResponse response, String url) {
-        try {
-            response.sendRedirect(url);
-        } catch (IOException e) {
-            log.error("Error while sending redirect - {}", e.getMessage());
-            redirectionError();
-        }
-    }
-
-    private static ModelAndView redirectionError() {
-        ModelMap map = new ModelMap();
-        map.addAttribute("errorResponse", new ErrorResponse(
-                LocalDateTime.now(),
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                "Sorry, our problem with page, come back in 5 minutes😐🙏",
-                "/error"
-        ));
-        map.addAttribute("formatter", DateTimeFormatter.ofPattern("h:mm a"));
-
-
-        return new ModelAndView("error", map);
-    }
 }

@@ -11,6 +11,7 @@
             text-align: center;
             padding: 50px;
         }
+
         .registration-container {
             max-width: 400px;
             margin: 0 auto;
@@ -19,12 +20,14 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         input {
             width: 100%;
             padding: 10px;
             margin: 8px 0;
             box-sizing: border-box;
         }
+
         button {
             background-color: #4caf50;
             color: #fff;
@@ -32,7 +35,7 @@
             border: none;
             border-radius: 3px;
             cursor: pointer;
-            transition: background-color 0.3s ease; 
+            transition: background-color 0.3s ease;
         }
 
         button:hover {
@@ -46,7 +49,7 @@
             border: none;
             border-radius: 3px;
             cursor: pointer;
-            transition: background-color 0.3s ease; 
+            transition: background-color 0.3s ease;
         }
 
         .register:hover {
@@ -55,21 +58,27 @@
     </style>
 </head>
 <body>
-    <div class="registration-container">
-        <h2>Реєстрація</h2>
-        <form action="your_registration_handler.php" method="post">
-            <label for="fullname">П.І.Б:</label>
-            <input type="text" id="fullname" name="fullname" required>
+<div class="registration-container">
+    <h2>Реєстрація</h2>
+    <form th:action="@{/api/auth/register}" th:method="post">
+        <label for="fullname">П.І.Б:</label>
+        <input type="text" id="fullname" name="fullName" th:field="${registerRequest.fullName}" required
+               placeholder="Джава Лисенко">
 
-            <label for="email">E-mail:</label>
-            <input type="text" id="email" name="email" required>
+        <label for="email">E-mail:</label>
+        <input type="text" id="email" name="email" th:field="${registerRequest.email}" placeholder="gmail@mail.co"
+               required>
 
-            <label for="password">Пароль:</label>
-            <input type="password" id="password" name="password" required>
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" th:field="${registerRequest.password}" required
+               placeholder="password#466#45rfDLFK">
 
-            <button type="submit" >Увійти</button>
-            <button type="submit" class="register">Зареєструватися</button>
-        </form>
-    </div>
+        <button type="submit" class="register">Зареєструватися</button>
+    </form>
+    <br>
+    <form th:action="@{/api/auth/login}" th:method="get">
+        <button type="submit">Увійти</button>
+    </form>
+</div>
 </body>
 </html>

@@ -17,8 +17,9 @@ import org.university.bookQuest.service.AuthorService;
 import org.university.bookQuest.service.UserService;
 
 import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
-import static org.university.bookQuest.exception.AppExceptionHandler.sendRedirectAndCheckForError;
+import static org.university.bookQuest.controller.ControllerHelper.sendRedirectAndCheckForError;
 
 @Slf4j
 @RestController
@@ -45,15 +46,16 @@ public class AuthorController {
         map.addAttribute("sort_order", sortedOrder);
         map.addAttribute("sort_by", sortBy);
         map.addAttribute("is_admin", userService.isAdmin(userId));
-        map.addAttribute("dateFormatter", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        map.addAttribute("user_id", userId);
+        map.addAttribute("dateFormatter", DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG));
         map.addAttribute("authors", authorService.getAllAuthors(
                 PageRequest.of(
-                        pageNumber, 5, Sort.by(Sort.Direction.fromString(sortedOrder), sortBy)
+                        pageNumber, 4, Sort.by(Sort.Direction.fromString(sortedOrder), sortBy)
                 ), searchText)
         );
         log.info("=== GET-AUTHORS === {}", authentication.getName());
 
-        return new ModelAndView("athors-list", map);
+        return new ModelAndView("authors-list", map);
     }
 
     @GetMapping("/{id}")
@@ -70,8 +72,9 @@ public class AuthorController {
 
     @GetMapping("/create")
     @PreAuthorize("hasRole('ADMIN')")
-    public ModelAndView getCreateForm(ModelMap map) {
+    public ModelAndView getCreateForm(@PathVariable("user-id") long userId, ModelMap map) {
         map.addAttribute("authorRequest", new AuthorRequest());
+        map.addAttribute("user_id", userId);
         return new ModelAndView("author-create", map);
     }
 
@@ -79,16 +82,17 @@ public class AuthorController {
     @PreAuthorize("hasRole('ADMIN')")
     public void createAuthor(@PathVariable("user-id") long userId, @Valid AuthorRequest authorRequest,
                              Authentication authentication, HttpServletResponse response) {
-        authorService.create(authorRequest.getFullName(), authorRequest.getBiography(), authorRequest.getBirtDate());
+        authorService.create(mapper.getAuthorFromAuthorRequest(authorRequest));
         log.info("=== CREATE-AUTHOR === {}", authentication.getName());
         sendRedirectAndCheckForError(response, String.format("/api/%s/authors", userId));
     }
 
     @GetMapping("/{id}/update")
     @PreAuthorize("hasRole('ADMIN')")
-    public ModelAndView getUpdateForm(@PathVariable long id, ModelMap map) {
+    public ModelAndView getUpdateForm(@PathVariable("user-id") long userId, @PathVariable long id, ModelMap map) {
         map.addAttribute("id", id);
-        map.addAttribute("authorRequest", new AuthorRequest());
+        map.addAttribute("user_id", userId);
+        map.addAttribute("authorRequest", mapper.getAuthorRequestFromAuthor(authorService.readById(id)));
         return new ModelAndView("author-update", map);
     }
 

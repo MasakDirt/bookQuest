@@ -5,7 +5,6 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +19,9 @@ import org.university.bookQuest.mapper.UserMapper;
 import org.university.bookQuest.service.RoleService;
 import org.university.bookQuest.service.UserService;
 
-import static org.university.bookQuest.exception.AppExceptionHandler.sendRedirectAndCheckForError;
+import java.time.LocalDateTime;
+
+import static org.university.bookQuest.controller.ControllerHelper.sendRedirectAndCheckForError;
 
 @Slf4j
 @RestController
@@ -40,17 +41,17 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public void login(@Valid LoginRequest loginRequest, Authentication authentication) {
+    public void login(@Valid LoginRequest loginRequest, HttpServletResponse response) {
         var user = userService.readByEmail(loginRequest.getEmail());
-        checkPassword(loginRequest.getPassword(), user.getPassword());
-
-        log.info("LOGIN === {} == {}", user.getEmail(), authentication.getPrincipal());
+        checkPassword(loginRequest.getPassword(), user.getPassword(), user.getEmail());
+        log.info("LOGIN === {} == {}", user.getEmail(), LocalDateTime.now());
     }
 
-    private void checkPassword(String rawPass, String encodedPass) {
+    private void checkPassword(String rawPass, String encodedPass, String email) {
         if (!passwordEncoder.matches(rawPass, encodedPass)) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Wrong old password!");
         }
+        log.info("password for user {} is correct", email);
     }
 
     @GetMapping("/register")
@@ -60,11 +61,11 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public void register(@Valid RegisterRequest registerRequest, Authentication authentication, HttpServletResponse response) {
+    public void register(@Valid RegisterRequest registerRequest, HttpServletResponse response) {
         var user = userService.create(mapper.getUserFromRegisterRequest(registerRequest),
                 roleService.readByName("USER"));
 
-        log.info("REGISTER === {} == {}", user.getEmail(), authentication.getPrincipal());
+        log.info("REGISTER === {} == {}", user.getEmail(), LocalDateTime.now());
         sendRedirectAndCheckForError(response, "/api/auth/login");
     }
 }

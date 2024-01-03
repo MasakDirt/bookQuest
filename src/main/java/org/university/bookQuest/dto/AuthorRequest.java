@@ -4,8 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import java.time.LocalDateTime;
-
 @Data
 @Builder
 @Getter
@@ -21,5 +19,5 @@ public class AuthorRequest {
     private String biography;
 
     @JsonProperty(value = "birth_date")
-    private LocalDateTime birtDate;
+    private String birthDate;
 }

@@ -71,15 +71,15 @@
 <body>
     <div class="registration-container">
         <h2> Створити автора</h2>
-        <form action="your_registration_handler.php" method="post">
-            <label for="fullname">П.І.Б:</label>
-            <input type="text" id="fullname" name="fullname" required>
+        <form th:action="@{|/api/${user_id}/authors|}" method="post">
+            <label for="fullName">П.І.Б:</label>
+            <input type="text" id="fullName" name="fullName" th:field="${authorRequest.fullName}" required>
 
             <label for="biography">Біографія:</label>
-            <textarea id="biography" name="biography" rows="4" required></textarea>
+            <textarea id="biography" name="biography" th:field="${authorRequest.biography}" rows="4" required></textarea>
 
-            <label for="dob">Виберіть дату народження:</label>
-            <input type="date" id="dob" name="dob" required>
+            <label for="birthDate">Виберіть дату народження:</label>
+            <input type="date" id="birthDate" name="birthDate" th:field="${authorRequest.birthDate}" required>
 
             
             <button type="submit" class="create">Створити автора</button>

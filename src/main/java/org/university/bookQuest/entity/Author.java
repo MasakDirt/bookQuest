@@ -35,15 +35,15 @@ public class Author {
     private String biography;
 
     @Column(name = "birth_date")
-    private LocalDateTime birtDate;
+    private LocalDateTime birthDate;
 
     @JsonManagedReference
     @OneToMany(mappedBy = "author")
     private List<Book> books;
 
-    private Author(String fullName, String biography, LocalDateTime birtDate) {
+    private Author(String fullName, String biography, LocalDateTime birthDate) {
         this.fullName = fullName;
-        this.birtDate = birtDate;
+        this.birthDate = birthDate;
         this.biography = biography;
     }
 
@@ -54,12 +54,12 @@ public class Author {
         Author author = (Author) o;
         return id == author.id && booksAmount == author.booksAmount
                 && Objects.equals(fullName, author.fullName) &&
-                Objects.equals(biography, author.biography) && Objects.equals(birtDate, author.birtDate);
+                Objects.equals(biography, author.biography) && Objects.equals(birthDate, author.birthDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, fullName, booksAmount, biography, birtDate);
+        return Objects.hash(id, fullName, booksAmount, biography, birthDate);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class Author {
                 ", fullName='" + fullName + '\'' +
                 ", booksAmount=" + booksAmount +
                 ", biography='" + biography + '\'' +
-                ", birtDate=" + birtDate +
+                ", birtDate=" + birthDate +
                 '}';
     }
 

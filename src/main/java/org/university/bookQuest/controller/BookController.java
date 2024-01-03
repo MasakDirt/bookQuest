@@ -18,13 +18,13 @@ import org.university.bookQuest.service.UserService;
 
 import java.time.format.DateTimeFormatter;
 
-import static org.university.bookQuest.exception.AppExceptionHandler.sendRedirectAndCheckForError;
+import static org.university.bookQuest.controller.ControllerHelper.sendRedirectAndCheckForError;
 
 
 @Slf4j
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/{user-id}/authors/{author-id}")
+@RequestMapping("/api/{user-id}/authors/{author-id}/books")
 public class BookController {
 
     private final BookService bookService;
