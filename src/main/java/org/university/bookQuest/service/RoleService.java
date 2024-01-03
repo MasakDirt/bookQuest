@@ -23,7 +23,14 @@ public class RoleService {
     public Role readById(long id) {
         Role role = roleRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Role not found!"));
-        log.info("read role by id + {}", role.getName());
+        log.info("read role by id {}", role.getName());
+        return role;
+    }
+
+    public Role readByName(String name) {
+        Role role = roleRepository.findByName(name)
+                .orElseThrow(() -> new EntityNotFoundException("Role not found!"));
+        log.info("read role by id {}", role.getName());
         return role;
     }
 
