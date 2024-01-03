@@ -41,8 +41,9 @@ public class User implements UserDetails {
     @Column(name = "e_mail", unique = true, nullable = false)
     private String email;
 
-    @OneToOne
+    @ManyToOne
     @JsonBackReference
+    @JoinColumn(name = "role_id")
     private Role role;
 
     @Override
