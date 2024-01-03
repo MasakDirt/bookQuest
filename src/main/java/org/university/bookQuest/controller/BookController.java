@@ -39,18 +39,16 @@ public class BookController {
             @RequestParam(name = "searchText", required = false, defaultValue = "") String searchText,
             Authentication authentication, ModelMap map) {
 
-        String sortBy = "id";
-        String sortedOrder = "desc";
+        String sortBy = "title";
+        String sortedOrder = "asc";
         map.addAttribute("page", pageNumber);
         map.addAttribute("searchText", searchText);
-        map.addAttribute("sort_order", sortedOrder);
-        map.addAttribute("sort_by", sortBy);
         map.addAttribute("is_admin", userService.isAdmin(userId));
         map.addAttribute("author_id", authorId);
-        map.addAttribute("dateFormatter", DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        map.addAttribute("user_id", userId);
         map.addAttribute("books", bookService.getAllAuthorBooks(
                 PageRequest.of(
-                        pageNumber, 5, Sort.by(Sort.Direction.fromString(sortedOrder), sortBy)
+                        pageNumber, 4, Sort.by(Sort.Direction.fromString(sortedOrder), sortBy)
                 ), searchText, authorId)
         );
         log.info("=== GET-BOOKS === {}", authentication.getName());
@@ -73,8 +71,9 @@ public class BookController {
 
     @GetMapping("/create")
     @PreAuthorize("hasRole('ADMIN')")
-    public ModelAndView getCreateForm(@PathVariable("author-id") long authorId, ModelMap map) {
+    public ModelAndView getCreateForm(@PathVariable("user-id") long userId, @PathVariable("author-id") long authorId, ModelMap map) {
         map.addAttribute("bookRequest", new BookRequest());
+        map.addAttribute("user_id", userId);
         map.addAttribute("author_id", authorId);
         return new ModelAndView("book-create", map);
     }
@@ -83,16 +82,18 @@ public class BookController {
     @PreAuthorize("hasRole('ADMIN')")
     public void createBook(@PathVariable("user-id") long userId, @PathVariable("author-id") long authorId,
                              @Valid BookRequest bookRequest, Authentication authentication, HttpServletResponse response) {
-        bookService.create(bookRequest.getTitle(), bookRequest.getDescription(), bookRequest.getPages());
+        bookService.create(authorId, bookRequest.getTitle(), bookRequest.getDescription(), bookRequest.getPages());
         log.info("=== CREATE-BOOK === {}", authentication.getName());
-        sendRedirectAndCheckForError(response, String.format("/api/%s/authors/%s", userId, authorId));
+        sendRedirectAndCheckForError(response, String.format("/api/%s/authors/%s/books", userId, authorId));
     }
 
     @GetMapping("/{id}/update")
     @PreAuthorize("hasRole('ADMIN')")
-    public ModelAndView getUpdateForm(@PathVariable("author-id") long authorId, @PathVariable long id, ModelMap map) {
+    public ModelAndView getUpdateForm(@PathVariable("user-id") long userId, @PathVariable("author-id") long authorId,
+                                      @PathVariable long id, ModelMap map) {
         map.addAttribute("id", id);
         map.addAttribute("author_id", authorId);
+        map.addAttribute("user_id", userId);
         map.addAttribute("bookRequest", new BookRequest());
         return new ModelAndView("book-update", map);
     }
@@ -104,7 +105,7 @@ public class BookController {
                            Authentication authentication, HttpServletResponse response) {
         bookService.update(id, mapper.getBookFromBookRequest(bookRequest));
         log.info("=== UPDATE-BOOK === {}", authentication.getName());
-        sendRedirectAndCheckForError(response, String.format("/api/%s/authors/%s", userId, authorId));
+        sendRedirectAndCheckForError(response, String.format("/api/%s/authors/%s/books", userId, authorId));
     }
 
     @GetMapping("/{id}/delete")
@@ -113,6 +114,6 @@ public class BookController {
                              @PathVariable long id, Authentication authentication, HttpServletResponse response) {
         bookService.delete(id);
         log.info("=== DELETE-BOOK === {}", authentication.getName());
-        sendRedirectAndCheckForError(response, String.format("/api/%s/authors/%s", userId, authorId));
+        sendRedirectAndCheckForError(response, String.format("/api/%s/authors/%s/books", userId, authorId));
     }
 }
