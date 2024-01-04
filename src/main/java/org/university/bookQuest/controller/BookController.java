@@ -94,7 +94,7 @@ public class BookController {
         map.addAttribute("id", id);
         map.addAttribute("author_id", authorId);
         map.addAttribute("user_id", userId);
-        map.addAttribute("bookRequest", new BookRequest());
+        map.addAttribute("bookRequest", mapper.getBookRequestFromBook(bookService.readById(id)));
         return new ModelAndView("book-update", map);
     }
 
