@@ -8,4 +8,5 @@ import org.university.bookQuest.entity.Book;
 public interface BookMapper {
 
     Book getBookFromBookRequest(BookRequest bookRequest);
+    BookRequest getBookRequestFromBook(Book book);
 }
